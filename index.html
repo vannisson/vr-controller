@@ -1,0 +1,71 @@
+<html>
+  <head>
+      <title>Virtual Reality Controller</title>
+
+      <script src="./lib/aframe-v1.5.0.min.js"></script>
+      <script src="./lib/aframe-extras.controls.min.js"></script>
+      <script src="./lib/aframe-extras.pathfinding.min.js"></script>
+      <script src="./lib/mqtt.min.js"></script>
+
+      <!-- <script src="./src/client.js"></script> -->
+  </head>
+  <body>
+    <a-scene id="scene" renderer="antialias: true;">
+      <!-- Assets -->
+      <a-assets>
+        <img id="floor-texture" src="./assets/floor.png">
+        <img id="sky-texture" src="./assets/sky.jpg">
+      </a-assets>
+
+      <!-- Player -->
+      <a-entity 
+        movement-controls="speed: 0.15; camera: #camera;"
+        position="0 0 0" rotation="0 0 0"
+        id="#player">
+
+        <!-- Camera -->
+        <a-entity camera="near:0.01;" look-controls fov="100" id="#camera" position="0 1.65 0"></a-entity>
+
+        <!-- Left Controller -->
+        <a-entity id="leftController" led-commands oculus-touch-controls="hand: left;">
+
+          <a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -.1"
+            geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+            material="color: gray; shader: flat"
+            raycaster="objects: .clicable; showLine: true; far: 100; lineColor: red; lineOpacity: 0.5">
+          </a-entity>
+
+        </a-entity>
+
+        <!-- Right Controller -->
+        <a-entity id="rightController" led-commands oculus-touch-controls="hand: right;">
+
+          <a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -.1"
+            geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+            material="color: gray; shader: flat"
+            raycaster="objects: .clicable; showLine: true; far: 100; lineColor: red; lineOpacity: 0.5">
+          </a-entity>
+
+        </a-entity>
+      </a-entity> <!-- Player -->
+      
+      <!-- Navmesh -->
+      <a-entity static-body class="navmesh" geometry="primitive: plane; height: 50; width: 50" position="0 0 0" rotation="-90 0 0" material="src: #floor-texture; repeat: 4 4"></a-entity>
+      
+      <!-- Sky -->
+      <a-sky src="#sky-texture"></a-sky>
+
+      <!-- Entities -->
+
+      <a-entity id="led01-button" class="clicable" clicable geometry="primitive:box; width: 1; height: 1; depth: 1" position="-2 0.5 -5" material="color:red"></a-entity>
+      <a-entity id="led02-button" class="clicable" clicable geometry="primitive:box; width: 1; height: 1; depth: 1" position="2 0.5 -5" material="color:green"></a-entity>
+
+      <a-entity id="current-led" geometry="primitive:box; width: 1; height: 1; depth: 1" position="0 2 -5" material="color:white"></a-entity>
+
+    </a-scene>
+
+  </body>
+
+  <script src="./src/components.js"></script>
+
+</html>
